@@ -1,0 +1,17 @@
+logs = [
+    ("sai", "failed"),
+    ("sai", "failed"),
+    ("sai", "failed"),
+    ("sai", "success"),
+    ("ram", "failed"),
+    ("ram", "success")
+]
+
+user = input("Enter username to check: ")
+
+failed = 0
+detected = False
+
+for username, status in logs:
+
+    if username == user:
