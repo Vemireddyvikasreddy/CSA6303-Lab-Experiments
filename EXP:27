@@ -1,0 +1,50 @@
+
+# Minimal Signature-Based Intrusion Detection System (IDS)
+
+# IDS signatures: protocol, port, and content pattern
+signatures = [
+    {
+        "protocol": "TCP",
+        "port": 80,
+        "pattern": "GET /admin"
+    },
+    {
+        "protocol": "TCP",
+        "port": 443,
+        "pattern": "suspicious_payload"
+    },
+    {
+        "protocol": "UDP",
+        "port": 53,
+        "pattern": "malicious_domain"
+    }
+]
+
+
+def detect_intrusion(protocol, port, payload):
+    for signature in signatures:
+
+        # Check protocol and port context
+        context_match = (
+            protocol.upper() == signature["protocol"]
+            and port == signature["port"]
+        )
+
+        # Check content pattern
+        content_match = signature["pattern"] in payload
+
+        # Alert only when both conditions match
+        if context_match and content_match:
+            print("ALERT: Intrusion detected!")
+            print("Protocol:", protocol)
+            print("Port:", port)
+            print("Matched Pattern:", signature["pattern"])
+            return
+
+    print("No intrusion detected.")
+
+
+# Test cases
+detect_intrusion("TCP", 80, "GET /admin")
+detect_intrusion("TCP", 21, "GET /admin")
+detect_intrusion("UDP", 53, "malicious_domain")
